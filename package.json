@@ -1,0 +1,12 @@
+{
+  "name": "api-produtos-express",
+  "version": "1.0.0",
+  "description": "API de produtos com Express e dados em memória",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
