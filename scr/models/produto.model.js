@@ -5,9 +5,6 @@ class Produto {
     this.preco = preco;
   }
 
-  estaEmPromocao() {
-    return this.preco < 100;
-  }
 }
 
 module.exports = Produto;
