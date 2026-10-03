@@ -1,31 +1,43 @@
 const Produto = require("../models/produto.model");
 
-const produtos = [
-  new Produto({ id: 1, nome: "Notebook", preco: 3500 }),
-  new Produto({ id: 2, nome: "Mouse", preco: 120 })
-];
-
 function listar() {
-  return produtos;
+  return Produto.findAll({ order: [["id", "ASC"]] });
 }
 
 function buscarPorId(id) {
-  return produtos.find(p => p.id === Number(id));
+  return Produto.findByPk(id);
 }
 
-function criar(dados) {
+function validar(dados) {
   if (!dados.nome || dados.preco == null) {
     throw new Error("nome e preco são obrigatórios");
   }
+  if (typeof dados.nome !== "string" || !dados.nome.trim()) {
+    throw new Error("nome e preco são obrigatórios");
+  }
+  if (typeof dados.preco !== "number" || Number.isNaN(dados.preco) || dados.preco < 0) {
+    throw new Error("preco deve ser um número maior ou igual a zero");
+  }
+}
 
-  const produto = new Produto({
-    id: produtos.length + 1,
-    nome: dados.nome,
-    preco: dados.preco
-  });
+async function criar(dados) {
+  validar(dados);
+  return Produto.create({ nome: dados.nome.trim(), preco: dados.preco });
+}
 
-  produtos.push(produto);
+async function atualizar(id, dados) {
+  validar(dados);
+  const produto = await Produto.findByPk(id);
+  if (!produto) return null;
+  await produto.update({ nome: dados.nome.trim(), preco: dados.preco });
   return produto;
 }
 
-module.exports = { listar, buscarPorId, criar };
+async function excluir(id) {
+  const produto = await Produto.findByPk(id);
+  if (!produto) return false;
+  await produto.destroy();
+  return true;
+}
+
+module.exports = { listar, buscarPorId, criar, atualizar, excluir };

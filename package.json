@@ -1,12 +1,33 @@
 {
   "name": "api-produtos-express",
   "version": "1.0.0",
-  "description": "API de produtos com Express e dados em memória",
+  "description": "CRUD de produtos com Express, Sequelize e SQLite",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "jest --runInBand --coverage"
   },
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "sequelize": "^6.37.8",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "supertest": "^7.3.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "app.js",
+      "scr/**/*.js"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
   }
 }
